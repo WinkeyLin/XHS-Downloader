@@ -1,4 +1,4 @@
-name: 构建并发布 Docker 镜像
+name: 构建 Dev Docker 镜像
 
 on:
   workflow_dispatch:
@@ -59,14 +59,9 @@ jobs:
       - name: 生成标签
         id: generate-tags
         run: |
-          if [ "${{ inputs.is_beta }}" == "true" ]; then
-            DEV_TAG="${LATEST_TAG%.*}.$(( ${LATEST_TAG##*.} + 1 ))-dev"
-            TAGS="${{ env.DOCKER_REPO }}:${DEV_TAG},${{ env.GHCR_REPO }}:${DEV_TAG}"
-            echo "IMAGE_TAG=$DEV_TAG" >> $GITHUB_ENV
-          else
-            TAGS="${{ env.DOCKER_REPO }}:${LATEST_TAG},${{ env.DOCKER_REPO }}:latest,${{ env.GHCR_REPO }}:${LATEST_TAG},${{ env.GHCR_REPO }}:latest"
-            echo "IMAGE_TAG=$LATEST_TAG" >> $GITHUB_ENV
-          fi
+          DEV_TAG="dev"
+          TAGS="${DEV_TAG}"
+          echo "IMAGE_TAG=$DEV_TAG" >> $GITHUB_ENV
           echo "TAGS=$TAGS" >> $GITHUB_ENV
 
       - name: 构建和推送 Docker 镜像到 Docker Hub 和 GHCR
