@@ -64,11 +64,11 @@ jobs:
           echo "IMAGE_TAG=$DEV_TAG" >> $GITHUB_ENV
           echo "TAGS=$TAGS" >> $GITHUB_ENV
 
-      - name: 构建和推送 Docker 镜像到 Docker Hub 和 GHCR
+      - name: 构建 Docker 镜像
         uses: docker/build-push-action@v6
         with:
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: false
           tags: ${{ env.TAGS }}
           provenance: false
