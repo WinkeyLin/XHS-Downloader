@@ -60,7 +60,7 @@ jobs:
         id: generate-tags
         run: |
           DEV_TAG="dev"
-          TAGS="${DEV_TAG}"
+          TAGS="kanro/xhs-downloader:${DEV_TAG}"
           echo "IMAGE_TAG=$DEV_TAG" >> $GITHUB_ENV
           echo "TAGS=$TAGS" >> $GITHUB_ENV
 
@@ -79,10 +79,10 @@ jobs:
         run: |
           # 获取第一个标签用于保存
           FIRST_TAG=$(echo "${{ env.TAGS }}" | cut -d',' -f1)
-          docker save $FIRST_TAG -o xhs-downloader_dev.tar
+          docker save $FIRST_TAG -o xhs-downloader-dev.tar
 
       - name: Upload image as artifact
         uses: actions/upload-artifact@v4
         with:
           name: docker-image
-          path: xhs-downloader_dev.tar
+          path: xhs-downloader-dev.tar
